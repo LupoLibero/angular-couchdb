@@ -149,18 +149,16 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
         throw 'please specify the update to reach';
       }
       if(params.hasOwnProperty('id')){
-        params.id = params.id.replace('#', '%23');
         _id = type + '-' + params.id
       }
       if(params.hasOwnProperty('_id')){
-        _id = params._id.replace('#', '%23');
+        _id = params._id
       }
 
-      var url = urldb + '/_design/'+ name +'/_update/'+ type +'_'+ params.update+'/'+ _id;
+      var url = urldb + '/_design/'+ name +'/_update/'+ type +'_'+ params.update+'/'+ _id.replace('#', '%23');
       var promise;
       var data = angular.copy(params);
       delete data.update;
-      delete data.id;
 
       if(params.hasOwnProperty('id')) {
         promise = $http.put(url, data);
