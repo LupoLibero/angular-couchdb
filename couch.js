@@ -69,7 +69,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
 
       // Stringify params
       angular.forEach(params, function(param, key){
-        if(typeof param == 'object') {
+        if(key != 'view') {
           this[key] = JSON.stringify(param);
         }
       }, params);
