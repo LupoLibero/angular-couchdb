@@ -158,7 +158,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
         _id = params._id;
       }
 
-      if(!params.hasOwnProperty('id') || !params.hasOwnProperty('_id')) {
+      if(!params.hasOwnProperty('id') && !params.hasOwnProperty('_id')) {
         _id = '';
       }
 
