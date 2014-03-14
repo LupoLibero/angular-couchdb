@@ -100,7 +100,10 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
         params.key = params.id;
       }
       delete params.id;
-      params.view = 'get';
+
+      if(!params.hasOwnProperty('view')){
+        params.view = 'get';
+      }
 
       this.view(params).then(function(data){
           if(data.length == 0) {
