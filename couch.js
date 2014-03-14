@@ -148,11 +148,15 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
       if(!params.hasOwnProperty('update')){
         throw 'please specify the update to reach';
       }
-      if(params.hasOwnProperty('id')){
-        _id = type + '-' + params.id
+      if(params.hasOwnProperty('id')) {
+        _id = type + '-' + params.id;
       }
-      if(params.hasOwnProperty('_id')){
-        _id = params._id
+      if(params.hasOwnProperty('_id')) {
+        _id = params._id;
+      }
+
+      if(!params.hasOwnProperty('id') || !params.hasOwnProperty('_id')) {
+        _id = '';
       }
 
       var url = urldb + '/_design/'+ name +'/_update/'+ type +'_'+ params.update+'/'+ _id.replace('#', '%23');
@@ -160,7 +164,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
       var data = angular.copy(params);
       delete data.update;
 
-      if(params.hasOwnProperty('id')) {
+      if(params.hasOwnProperty('id') || params.hasOwnProperty('_id')) {
         promise = $http.put(url, data);
       } else {
         promise = $http.post(url, data);
