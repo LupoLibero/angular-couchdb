@@ -29,7 +29,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
     // GetDoc
     methods.getOne = {
       method: 'GET',
-      url: urldb + '/'+ type +'-:id',
+      url: urldb + '/:_id',
       params: {
         id: '@id'
       }
@@ -45,16 +45,6 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
     methods.updateDoc = {
       method: 'PUT',
       url: urldb + '/:_id'
-    };
-
-    // Delete
-    methods.delete = {
-      method: 'DELETE',
-      url: urldb + '/'+ type +'-:id?rev=:rev',
-      params: {
-        id: '@id',
-        rev: '@_rev'
-      }
     };
 
     // Create a resource Object
@@ -125,8 +115,12 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
 
     // Get Doc
     resource.getDoc = function(params) {
-      if(params == undefined && params.hasOwnProperty('id')){
+      if(params == undefined && params.hasOwnProperty('id') && params.hasOwnProperty('_id')){
         throw 'For getting a document you need to pass his id';
+      }
+
+      if(!params.hasOwnProperty('_id') && params.hasOwnProperty('id')) {
+        params._id = type+':'+params.id
       }
 
       var defer = $q.defer();
