@@ -120,7 +120,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
       }
 
       if(!params.hasOwnProperty('_id') && params.hasOwnProperty('id')) {
-        params._id = type+':'+params.id;
+        params._id = type+':'+params.id
         delete params.id;
       }
 
@@ -170,14 +170,9 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
 
       var defer = $q.defer();
 
-      promise.success(function(data, status, headers, config){
-        if(typeof data != 'object'){
-          var save = data;
-          data = {};
-          data['data'] = save;
-        }
+      promise.success(function(response, status, headers, config){
         if(headers().hasOwnProperty('x-couch-update-newrev')) {
-          data['newrev'] = headers()['x-couch-update-newrev']
+          data['_rev'] = headers()['x-couch-update-newrev']
         }
         defer.resolve(data);
       }).error(function(err){
