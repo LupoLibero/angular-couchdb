@@ -17,7 +17,15 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
       url: urldb + '/_design/'+ name +'/_view/'+ type +'_:view',
       transformResponse: function(datas, headerGetter){
         results = [];
-        datas = JSON.parse(datas);
+        try {
+          datas = JSON.parse(datas);
+        } catch(e) {
+          try {
+            datas = JSON.parse(datas);
+          } catch(e) {
+            console.log(e);
+          }
+        }
         angular.forEach(datas.rows, function(data){
           data = data.value;
           results.push(data);
