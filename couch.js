@@ -5,13 +5,22 @@ ng.config(function($httpProvider) {
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });
 
-ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
+ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
   return function(urldb, name, type){
     var methods = {};
     var errorName = 'DatabaseError';
 
+
     if(urldb) {
       urldb = urldb + '/';
+    } else {
+      urldb = $location.absUrl().split('#')[0];
+      if(urldb.charAt(urldb.length) !== '/') {
+        urldb = urldb.split('/');
+        urldb.pop();
+        urldb = urldb.join('/');
+        urldb = urldb + '/';
+      }
     }
 
     // View
@@ -42,9 +51,6 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
     methods.getOne = {
       method: 'GET',
       url: urldb + ':_id',
-      params: {
-        id: '@id'
-      }
     };
 
     // create doc
@@ -138,9 +144,12 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
 
       var defer = $q.defer();
 
+      console.log(params);
+
       this.prototype.$getOne(params).then(function(data){
           defer.resolve(data);
         },function(err){
+          console.log(err);
           $rootScope.$broadcast(errorName, err)
           defer.reject(err);
         }
