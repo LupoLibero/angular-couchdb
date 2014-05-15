@@ -144,12 +144,9 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
 
       var defer = $q.defer();
 
-      console.log(params);
-
       this.prototype.$getOne(params).then(function(data){
           defer.resolve(data);
         },function(err){
-          console.log(err);
           $rootScope.$broadcast(errorName, err)
           defer.reject(err);
         }
