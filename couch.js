@@ -10,11 +10,15 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
     var methods = {};
     var errorName = 'DatabaseError';
 
+    if(urldb) {
+      urldb = urldb + '/';
+    }
+
     // View
     methods.views = {
       method: 'GET',
       isArray: true,
-      url: urldb + '/_design/'+ name +'/_view/'+ type +'_:view',
+      url: urldb + '_design/'+ name +'/_view/'+ type +'_:view',
       transformResponse: function(datas, headerGetter){
         results = [];
         try {
@@ -37,7 +41,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
     // GetDoc
     methods.getOne = {
       method: 'GET',
-      url: urldb + '/:_id',
+      url: urldb + ':_id',
       params: {
         id: '@id'
       }
@@ -52,7 +56,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
     // update doc
     methods.updateDoc = {
       method: 'PUT',
-      url: urldb + '/:_id'
+      url: urldb + ':_id'
     };
 
     // Create a resource Object
@@ -165,7 +169,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http){
         _id = '';
       }
 
-      var url = urldb + '/_design/'+ name +'/_update/'+ type +'_'+ params.update+'/'+ _id.replace('#', '%23');
+      var url = urldb + '_design/'+ name +'/_update/'+ type +'_'+ params.update+'/'+ _id.replace('#', '%23');
       var promise;
       var data = angular.copy(params);
       delete data.update;
