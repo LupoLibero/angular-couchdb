@@ -133,7 +133,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
 
     // Get Doc
     resource.getDoc = function(params) {
-      if(params == undefined && params.hasOwnProperty('id') && params.hasOwnProperty('_id')){
+      if(params == undefined || !params.hasOwnProperty('id') && !params.hasOwnProperty('_id')){
         throw 'For getting a document you need to pass his id';
       }
 
