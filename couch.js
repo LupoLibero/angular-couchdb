@@ -88,7 +88,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
         $rootScope.$broadcast(errorName, err);
         defer.reject(err);
       });
-      return defer.promise;
+      return defer.promise.then(this.view_then, this.view_error);
     }
 
     // All View
@@ -97,7 +97,7 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
         params = {};
       }
       params.view = 'all';
-      return this.view(params);
+      return this.view(params).then(this.all_then, this.all_error)
     }
 
     // Get View
@@ -128,8 +128,9 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
         }
       );
 
-      return defer.promise;
+      return defer.promise.then(this.get_then, this.get_error);
     }
+
 
     // Get Doc
     resource.getDoc = function(params) {
