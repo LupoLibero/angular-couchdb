@@ -40,8 +40,12 @@ ng.factory('CouchDB', function($resource, $q, $rootScope, $http, $location){
           }
         }
         angular.forEach(datas.rows, function(data){
-          data = data.value;
-          results.push(data);
+          if(data.hasOwnProperty('doc')) {
+            // include_docs option has been used
+            results.push(data.doc)
+          } else {
+            results.push(data.value)
+          }
         });
         return results;
       }
