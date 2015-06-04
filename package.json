@@ -1,0 +1,9 @@
+{
+  "name": "angular-couchdb",
+  "version": "0.1.0",
+  "main": "./couch.js",
+  "author": {
+    "name": "Sylvain Duchesne"
+  },
+  "description": "CouchDB client for AngularJS"
+}
