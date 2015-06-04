@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "./couch.js",
   "author": {
+    "name": "Jonathan Da Silva",
     "name": "Sylvain Duchesne"
   },
   "description": "CouchDB client for AngularJS"
